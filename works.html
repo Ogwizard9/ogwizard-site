@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Works — Og Wizard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── WORKS ── */
+    .works-intro {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 0;
+    }
+
+    .works-intro h1 {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .works-intro p { color: var(--text-2); max-width: 520px; }
+
+    /* One block per channel */
+    .channel {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 1rem;
+    }
+
+    .channel-head {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ch-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .ch-for,
+    .ch-subs,
+    .ch-index {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      color: var(--text-2);
+    }
+
+    .ch-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .ch-tick {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--text-2);
+      opacity: 0.75;
+    }
+
+    .ch-index { margin-left: auto; opacity: 0.55; }
+
+    @media (min-width: 700px) {
+      .channel-head { gap: 0.85rem; }
+      .ch-logo { width: 44px; height: 44px; }
+      .ch-name { font-size: 1.35rem; }
+      .ch-tick { width: 20px; height: 20px; }
+      .ch-for, .ch-subs, .ch-index { font-size: 0.95rem; }
+    }
+
+    /* Thumbnail grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    @media (min-width: 700px) { .grid { gap: 0.75rem; } }
+
+    .tile {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 0 0 1px var(--border);
+      outline: none;
+    }
+
+    .tile img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .tile:hover img,
+    .tile:focus img { transform: scale(1.03); }
+
+    /* Title + views, shown on hover / tap (like Samuel's) */
+    .tile-cap {
+      position: absolute;
+      left: 0.5rem;
+      right: 0.5rem;
+      bottom: 0.5rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(12, 12, 14, 0.84);
+      color: #fff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.68rem;
+      line-height: 1.35;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+    }
+
+    .tile-cap .t {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .tile-cap b {
+      display: block;
+      margin-top: 0.15rem;
+      font-weight: 500;
+      color: #7DB3FF;
+    }
+
+    .tile:hover .tile-cap,
+    .tile:focus .tile-cap { opacity: 1; transform: none; }
+
+    /* ── CONCEPTS ── */
+    .concepts-note {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      color: var(--text-2);
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .concepts-intro {
+      color: var(--text-2);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin-bottom: 1.5rem;
+    }
+
+    .concepts-grid {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 1.75rem;
+    }
+
+    @media (max-width: 699px) {
+      .concept .tile { border-radius: 16px; }
+    }
+
+    .concept { margin: 0; min-width: 0; }
+    .concept.featured { grid-column: 1 / -1; }
+
+    .concept .tile img { transition: transform 0.5s ease; }
+    .concept:hover .tile img { transform: scale(1.03); }
+
+    /* the hero piece gets a soft glow pulled from its own palette */
+    .concept.featured .tile {
+      border-radius: 16px;
+      box-shadow:
+        0 0 0 1px var(--border),
+        0 0 14px -6px rgb(var(--glow, 120 120 120) / 0.35);
+    }
+
+    /* niche tag, like Wajdan's category chips */
+    .chip {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      z-index: 1;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(10, 10, 12, 0.55);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+    }
+
+    .concept-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.75rem 0.15rem 0;
+    }
+
+    .concept-meta h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    .concept.featured .concept-meta h3 { font-size: 1.1rem; }
+
+    .concept-meta p {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+      color: var(--text-2);
+      white-space: nowrap;
+    }
+
+    @media (min-width: 700px) {
+      .concepts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .concept:not(.featured) .concept-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.1rem;
+      }
+      .concept.featured .tile { border-radius: 18px; }
+      .concept.featured .concept-meta h3 { font-size: 1.3rem; }
+      .chip { top: 0.9rem; left: 0.9rem; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-top">
+      <a class="nav-logo" href="index.html">Og Wizard</a>
+      <a class="btn-hire" href="index.html#contact"><span class="dot-green"></span> Hire me →</a>
+    </div>
+    <div class="nav-tabs">
+      <a class="nav-tab" href="index.html">Home</a>
+      <a class="nav-tab active" href="works.html">Works</a>
+      <a class="nav-tab" href="others.html">Others</a>
+    </div>
+  </nav>
+
+  <div class="works-intro">
+    <p class="section-label">Works</p>
+    <h1>Selected work</h1>
+    <p>Thumbnails and designs I’ve made for creators, grouped by channel.</p>
+  </div>
+
+  <!-- ═══ CHANNEL 01 — The Soup Room ═══ -->
+  <section class="channel" id="tsr">
+    <header class="channel-head">
+      <img class="ch-logo" src="images/tsr-logo.png" alt="The Soup Room logo" />
+      <span class="ch-for">for</span>
+      <h2 class="ch-name">The Soup Room</h2>
+      <!-- grey tick: delete this svg if you don’t want it on a channel -->
+      <svg class="ch-tick" viewBox="0 0 20 20" role="img" aria-label="Verified">
+        <g fill="currentColor">
+          <rect x="3.5" y="3.5" width="13" height="13" rx="3.5" />
+          <rect x="3.5" y="3.5" width="13" height="13" rx="3.5" transform="rotate(45 10 10)" />
+        </g>
+        <path d="M6.6 10.3l2.3 2.3 4.5-4.9" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="ch-subs">64K</span>
+      <span class="ch-index">01</span>
+    </header>
+
+    <div class="grid">
+      <figure class="tile" tabindex="0">
+        <img src="images/tsr-complete-model.webp" alt="Complete model thumbnail showing the 1H, 15M and 1m breakdown" loading="lazy" />
+        <figcaption class="tile-cap"><span class="t">The Complete 9am CR Model Guide (Start to Finish)</span><b>17K views</b></figcaption>
+      </figure>
+
+      <figure class="tile" tabindex="0">
+        <img src="images/tsr-how-to-use-crt.webp" alt="How to use CRT thumbnail with a Candle Range Theory diagram" loading="lazy" />
+        <figcaption class="tile-cap"><span class="t">How to trade CRT (Models explained)</span><b>17K views</b></figcaption>
+      </figure>
+
+      <figure class="tile" tabindex="0">
+        <img src="images/tsr-best-model-beginners.webp" alt="Best model for beginners full guide thumbnail" loading="lazy" />
+        <figcaption class="tile-cap"><span class="t">The 9am CR Model Most Traders Miss Every Morning</span><b>12K views</b></figcaption>
+      </figure>
+
+      <!-- add a figcaption (title + views) to the tiles below once you have them -->
+      <figure class="tile">
+        <img src="images/tsr-candle-range-theory.webp" alt="Candle Range Theory thumbnail showing bearish and bullish setups" loading="lazy" />
+      </figure>
+
+      <figure class="tile">
+        <img src="images/tsr-london-reversal.webp" alt="London reversal thumbnail with a copy this callout" loading="lazy" />
+      </figure>
+
+      <figure class="tile">
+        <img src="images/tsr-live-trading-9am.webp" alt="Live trading 9AM ET livestream thumbnail" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ CHANNEL 02 — Stef Trades ═══ -->
+  <section class="channel" id="stef">
+    <header class="channel-head">
+      <img class="ch-logo" src="images/stef-logo.jpg" alt="Stef Trades logo" />
+      <span class="ch-for">for</span>
+      <h2 class="ch-name">Stef Trades</h2>
+      <!-- grey tick: delete this svg if you don’t want it on a channel -->
+      <svg class="ch-tick" viewBox="0 0 20 20" role="img" aria-label="Verified">
+        <g fill="currentColor">
+          <rect x="3.5" y="3.5" width="13" height="13" rx="3.5" />
+          <rect x="3.5" y="3.5" width="13" height="13" rx="3.5" transform="rotate(45 10 10)" />
+        </g>
+        <path d="M6.6 10.3l2.3 2.3 4.5-4.9" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="ch-subs">7.1K</span>
+      <span class="ch-index">02</span>
+    </header>
+
+    <div class="grid">
+      <figure class="tile" tabindex="0">
+        <img src="images/stef-no-bias-needed.webp" alt="No bias needed thumbnail with liquidity, sweep and draw on liquidity labels" loading="lazy" />
+        <figcaption class="tile-cap"><span class="t">Why Bias Won’t Make You a Profitable Trader (This Will)</span><b>4.3K views</b></figcaption>
+      </figure>
+
+      <figure class="tile" tabindex="0">
+        <img src="images/stef-draw-on-liquidity.webp" alt="Draw on liquidity thumbnail with a highlighted target zone" loading="lazy" />
+        <figcaption class="tile-cap"><span class="t">How to be Insanely Accurate with Targets in Trading!</span><b>2.1K views</b></figcaption>
+      </figure>
+
+      <figure class="tile" tabindex="0">
+        <img src="images/stef-only-reversal-model.webp" alt="The only reversal model you need thumbnail" loading="lazy" />
+        <figcaption class="tile-cap"><span class="t">The Only Reversal Model You Will Ever Need! (ICT Concepts)</span><b>2.1K views</b></figcaption>
+      </figure>
+
+      <figure class="tile" tabindex="0">
+        <img src="images/stef-82-win-rate.webp" alt="82% win-rate AM reversal thumbnail" loading="lazy" />
+        <figcaption class="tile-cap"><span class="t">The Reversal Model That Gave Me An 82% Win Rate! (LIVE Proof)</span><b>1.3K views</b></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ 03 — Concepts ═══ -->
+  <section class="channel" id="concepts">
+    <header class="channel-head">
+      <img class="ch-logo" src="images/wizard-avatar.jpg" alt="Og Wizard avatar" />
+      <h2 class="ch-name">Concepts</h2>
+      <span class="concepts-note">personal work</span>
+      <span class="ch-index">03</span>
+    </header>
+    <p class="concepts-intro">Self-initiated designs exploring new niches and styles. Not client work.</p>
+
+    <div class="grid concepts-grid">
+      <article class="concept featured" style="--glow: 236 72 153">
+        <div class="tile">
+          <img src="images/concept-gta-vi-vice-city.webp" alt="Welcome to Vice City gaming thumbnail concept with the GTA VI logo and two characters over a neon city skyline" loading="lazy" />
+          <span class="chip">Gaming</span>
+        </div>
+        <div class="concept-meta">
+          <h3>Welcome to Vice City</h3>
+          <p>GTA VI · Concept</p>
+        </div>
+      </article>
+
+      <article class="concept">
+        <div class="tile">
+          <img src="images/concept-gym-bros.webp" alt="Gym Bros fitness thumbnail concept with a muscular green cartoon character beside a RIZZ label and a rising arrow" loading="lazy" />
+        </div>
+        <div class="concept-meta">
+          <h3>Gym Bros</h3>
+          <p>Fitness · Concept</p>
+        </div>
+      </article>
+
+      <!-- NEXT CONCEPT: copy an <article> above, then change the image, title and niche label. The first one has "featured" (full width, with the overlay chip); the rest sit in the 2-column grid and show the niche under the title -->
+    </div>
+  </section>
+
+  <!-- ═══ NEXT CHANNEL: copy a whole <section class="channel"> block above, change the logo / name / subs, set the index to 04 and swap the tiles ═══ -->
+
+  <footer style="margin-top: 3rem;">
+    Og Wizard &nbsp;·&nbsp; © 2026 All rights reserved.
+  </footer>
+
+</body>
+</html>
